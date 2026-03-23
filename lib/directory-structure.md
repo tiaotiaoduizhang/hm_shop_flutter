@@ -1,6 +1,19 @@
 # 创建适配web项目
 flutter create --platforms web hm_shop
 
+# Flutter 启动与构建
+
+## 环境检查
+
+```bash
+flutter --version
+flutter doctor
+```
+
+# 启动（移动端）
+flutter devices
+flutter run
+
 # lib 目录结构说明
 
 本文档用于说明 `lib` 目录下的结构与职责边界，便于团队协作与后续维护。
@@ -38,3 +51,5 @@ lib
 
 —— 更新日期：2026-03-23
 
+和vue不用
+flutter不需要导出，直接引入就行
