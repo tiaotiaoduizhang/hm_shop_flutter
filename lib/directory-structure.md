@@ -1,3 +1,6 @@
+# 创建适配web项目
+flutter create --platforms web hm_shop
+
 # lib 目录结构说明
 
 本文档用于说明 `lib` 目录下的结构与职责边界，便于团队协作与后续维护。
