@@ -10,7 +10,7 @@ class MyView extends StatefulWidget {
 class _MyViewState extends State<MyView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
        child: Text('我的'),
     );
   }
