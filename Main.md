@@ -121,5 +121,7 @@ flutter:
   - `HmSuggestion`（推荐）
   - `HmHot`（爆款）
   - `HmMoreList`（无限滚动）
-
-
+插件市场:https://pub.dev/packages?q=
+#轮播图插件安装：
+flutter pub add carousel_slider
+实现轮播图数据对象类型-viewmodels/home.dart
