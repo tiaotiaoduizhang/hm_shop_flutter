@@ -136,3 +136,6 @@ flutter pub add carousel_slider
 7.初始化数据更新状态
 
 flutter pub add dio
+
+分类数据获取并渲染(Ai)
+分类地址(get),/home/category/head
