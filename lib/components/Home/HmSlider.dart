@@ -82,7 +82,7 @@ class _HmSliderState extends State<HmSlider> {
       items: List.generate(
         widget.bannerList.length,
         (int index) => (Image.network(
-          widget.bannerList[index].imageUrl!,
+          widget.bannerList[index].imgUrl!,
           fit: BoxFit.cover,
           width: screenWidth,
         )),

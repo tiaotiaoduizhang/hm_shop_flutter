@@ -125,3 +125,14 @@ flutter:
 #轮播图插件安装：
 flutter pub add carousel_slider
 实现轮播图数据对象类型-viewmodels/home.dart
+
+获取轮播图数据:
+1.安装dio
+2.定义常量数据,基本地址,超时时间,业务状态,请求地址
+3.封装网络请求工具,基础地址,拦截器
+4.请求工具进一步解构,处理http状态和业务状态
+5.类工厂转化动态类型到对象类型
+6.封装请求api调用工厂函数
+7.初始化数据更新状态
+
+flutter pub add dio
