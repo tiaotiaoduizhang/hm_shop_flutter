@@ -139,3 +139,4 @@ flutter pub add dio
 
 分类数据获取并渲染(Ai)
 分类地址(get),/home/category/head
+特惠推荐地址:/hot/preference

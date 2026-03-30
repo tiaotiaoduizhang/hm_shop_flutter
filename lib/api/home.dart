@@ -11,6 +11,7 @@ Future<List<BannerItem>> getBannerListApi() async {
     return BannerItem.fromJson(item as Map<String, dynamic>);
   }).toList();
 }
+
 // 分类数据
 Future<List<CategoryItem>> getCategoryListApi() async {
   //  返回请求
@@ -19,4 +20,10 @@ Future<List<CategoryItem>> getCategoryListApi() async {
   ) {
     return CategoryItem.fromJson(item as Map<String, dynamic>);
   }).toList();
+}
+
+// 热门商品
+Future<SpecialOfferRecommendation> getHotPreferenceListApi() async {
+  final result = await dioRequest.get(HttpConstants.HOT_PREFERENCE);
+  return SpecialOfferRecommendation.fromJson(result as Map<String, dynamic>);
 }

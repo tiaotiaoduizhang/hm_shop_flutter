@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:hm_shop/api/home.dart';
 import 'package:hm_shop/components/Home/HmCategory.dart';
 import 'package:hm_shop/components/Home/HmHot.dart';
@@ -8,7 +9,7 @@ import 'package:hm_shop/components/Home/HmSuggestion.dart';
 import 'package:hm_shop/viewmodels/home.dart'; //轮播图数据对象类型
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+ HomeView({Key? key}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -36,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
     // 间隔
     SliverToBoxAdapter(child: Container(height: 10)),
     // 推荐
-    SliverToBoxAdapter(child: HmSuggestion()),
+    SliverToBoxAdapter(child: HmSuggestion(hotPreferenceList: _hotPreferenceList)),
     // 间隔
     SliverToBoxAdapter(child: Container(height: 10)),
     //热门商品组件
@@ -59,11 +60,25 @@ class _HomeViewState extends State<HomeView> {
     HmMoreList(),
     // SliverToBoxAdapter(child: HmMoreList()),
   ];
+  // 特惠推荐数据
+  SpecialOfferRecommendation _hotPreferenceList = SpecialOfferRecommendation(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
+  // 初始化
   @override
   void initState() {
     super.initState();
     _getBannerListApi();
     _getCategoryListApi();
+    _debugHotPreference();
+    _getHotPreferenceListApi();
+  }
+  // 获取特惠推荐数据
+  void _getHotPreferenceListApi() async {
+    _hotPreferenceList = await getHotPreferenceListApi();
+    setState(() {});
   }
 
   // 获取轮播图数据
@@ -75,6 +90,11 @@ class _HomeViewState extends State<HomeView> {
   // 获取分类数据
   void _getCategoryListApi() async {
     _categoryList = await getCategoryListApi();
+    setState(() {});
+  }
+//获取特惠推荐  
+  void _debugHotPreference() async {
+      _hotPreferenceList = await getHotPreferenceListApi();
     setState(() {});
   }
 
