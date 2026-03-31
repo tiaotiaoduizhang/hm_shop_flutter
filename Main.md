@@ -140,3 +140,14 @@ flutter pub add dio
 分类数据获取并渲染(Ai)
 分类地址(get),/home/category/head
 特惠推荐地址:/hot/preference
+
+推荐列表 （集成）
+说明
+1.集成素材获取第一页数据
+2.limit：数量为查询商品数量
+步骤
+1.请求地址常量
+2.API请求
+3.初始化获取数量
+4.传递数据到子组件
+5.实现渲染视图

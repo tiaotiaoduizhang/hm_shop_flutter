@@ -66,85 +66,65 @@ class CategoryItem {
   }
 }
 
-/// 特惠推荐根对象
-class SpecialOfferRecommendation {
-  /// 根对象ID
-  String? id;
-  /// 模块标题
-  String? title;
-  /// 子类型列表
-  List<SpecialOfferSubType>? subTypes;
+// 定义特惠推荐相关的类型和工厂转换函数
+class SpecialOffer {
+  String id;
+  String title;
+  List<SubType> subTypes;
 
-  SpecialOfferRecommendation({
-    required this.id,
-    required this.title,
-    required this.subTypes,
-  });
+  SpecialOffer({required this.id, required this.title, required this.subTypes});
 
-  /// 从 Map 转为 SpecialOfferRecommendation
-  factory SpecialOfferRecommendation.fromJson(Map<String, dynamic> json) {
+  factory SpecialOffer.fromJson(Map<String, dynamic> json) {
     final subTypesJson = json['subTypes'];
     final subTypes = subTypesJson is List
         ? subTypesJson
-              .map(
-                (item) =>
-                    SpecialOfferSubType.fromJson(item as Map<String, dynamic>),
-              )
-              .toList()
-        : <SpecialOfferSubType>[];
-
-    return SpecialOfferRecommendation(
-      id: json['id'] ?? '',
-      title: json['title'] ?? '',
+            .map((item) => SubType.fromJson(item as Map<String, dynamic>))
+            .toList()
+        : <SubType>[];
+    return SpecialOffer(
+      id: json['id'] ?? "",
+      title: json['title'] ?? "",
       subTypes: subTypes,
     );
   }
 }
 
-/// 特惠推荐子类型
-class SpecialOfferSubType {
-  /// 子类型ID
-  String? id;
-  /// 子类型标题
-  String? title;
-  /// 子类型商品容器（含分页与商品列表）
-  SpecialOfferGoodsItems? goodsItems;
+// 创建子类型和工厂转换函数
+class SubType {
+  String id;
+  String title;
+  GoodsItems goodsItems;
 
-  SpecialOfferSubType({
-    required this.id,
-    required this.title,
-    required this.goodsItems,
-  });
+  SubType({required this.id, required this.title, required this.goodsItems});
 
-  /// 从 Map 转为 SpecialOfferSubType
-  factory SpecialOfferSubType.fromJson(Map<String, dynamic> json) {
+  factory SubType.fromJson(Map<String, dynamic> json) {
     final goodsItemsJson = json['goodsItems'];
     final goodsItems = goodsItemsJson is Map<String, dynamic>
-        ? SpecialOfferGoodsItems.fromJson(goodsItemsJson)
-        : null;
-
-    return SpecialOfferSubType(
-      id: json['id'] ?? '',
-      title: json['title'] ?? '',
+        ? GoodsItems.fromJson(goodsItemsJson)
+        : GoodsItems(
+            counts: 0,
+            pageSize: 0,
+            pages: 0,
+            page: 0,
+            items: <Item>[],
+          );
+    return SubType(
+      id: json['id'] ?? "",
+      title: json['title'] ?? "",
       goodsItems: goodsItems,
     );
   }
 }
 
-/// 子类型下的商品分页数据
-class SpecialOfferGoodsItems {
-  /// 总条数
-  int? counts;
-  /// 每页数量
-  int? pageSize;
-  /// 总页数
-  int? pages;
-  /// 当前页码
-  int? page;
-  /// 商品条目列表
-  List<SpecialOfferGoodsItem>? items;
+// 创建商品项和工厂转换函数
+class GoodsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<Item> items;
 
-  SpecialOfferGoodsItems({
+  GoodsItems({
     required this.counts,
     required this.pageSize,
     required this.pages,
@@ -152,19 +132,14 @@ class SpecialOfferGoodsItems {
     required this.items,
   });
 
-  /// 从 Map 转为 SpecialOfferGoodsItems
-  factory SpecialOfferGoodsItems.fromJson(Map<String, dynamic> json) {
+  factory GoodsItems.fromJson(Map<String, dynamic> json) {
     final itemsJson = json['items'];
     final items = itemsJson is List
         ? itemsJson
-              .map(
-                (item) =>
-                    SpecialOfferGoodsItem.fromJson(item as Map<String, dynamic>),
-              )
-              .toList()
-        : <SpecialOfferGoodsItem>[];
-
-    return SpecialOfferGoodsItems(
+            .map((item) => Item.fromJson(item as Map<String, dynamic>))
+            .toList()
+        : <Item>[];
+    return GoodsItems(
       counts: (json['counts'] as num?)?.toInt() ?? 0,
       pageSize: (json['pageSize'] as num?)?.toInt() ?? 0,
       pages: (json['pages'] as num?)?.toInt() ?? 0,
@@ -174,39 +149,91 @@ class SpecialOfferGoodsItems {
   }
 }
 
-/// 商品条目
-class SpecialOfferGoodsItem {
-  /// 商品ID
-  String? id;
-  /// 商品名称
-  String? name;
-  /// 商品描述（可能为空）
+// 创建商品项和工厂转换函数
+class Item {
+  String id;
+  String name;
   String? desc;
-  /// 价格（字符串形式）
-  String? price;
-  /// 商品图片地址
-  String? picture;
-  /// 订单数量/热度
-  int? orderNum;
+  String price;
+  String picture;
+  int orderNum;
 
-  SpecialOfferGoodsItem({
+  Item({
     required this.id,
     required this.name,
-    required this.desc,
+    this.desc,
     required this.price,
     required this.picture,
     required this.orderNum,
   });
 
-  /// 从 Map 转为 SpecialOfferGoodsItem
-  factory SpecialOfferGoodsItem.fromJson(Map<String, dynamic> json) {
-    return SpecialOfferGoodsItem(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
       desc: json['desc'],
-      price: json['price'] ?? '',
-      picture: json['picture'] ?? '',
-      orderNum: (json['orderNum'] as num?)?.toInt() ?? 0,
+      price: json['price'] ?? "",
+      picture: json['picture'] ?? "",
+      orderNum: json['orderNum'] ?? 0,
+    );
+  }
+}
+
+class GoodDetailItem extends Item {
+  int payCount = 0;
+
+  /// 商品详情项
+  GoodDetailItem({
+    required super.id,
+    required super.name,
+    required super.price,
+    required super.picture,
+    required super.orderNum,
+    required this.payCount,
+  }) : super(desc: "");
+  // 转化方法
+  factory GoodDetailItem.formJSON(Map<String, dynamic> json) {
+    return GoodDetailItem(
+      id: json["id"]?.toString() ?? "",
+      name: json["name"]?.toString() ?? "",
+      price: json["price"]?.toString() ?? "",
+      picture: json["picture"]?.toString() ?? "",
+      orderNum: int.tryParse(json["orderNum"]?.toString() ?? "0") ?? 0,
+      payCount: int.tryParse(json["payCount"]?.toString() ?? "0") ?? 0,
+    );
+  }
+}
+
+class GoodsDetailsItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+
+  GoodsDetailsItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+
+  factory GoodsDetailsItems.fromJson(Map<String, dynamic> json) {
+    final itemsJson = json['items'];
+    final items = itemsJson is List
+        ? itemsJson
+            .map(
+              (item) => GoodDetailItem.formJSON(item as Map<String, dynamic>),
+            )
+            .toList()
+        : <GoodDetailItem>[];
+    return GoodsDetailsItems(
+      counts: (json['counts'] as num?)?.toInt() ?? 0,
+      pageSize: (json['pageSize'] as num?)?.toInt() ?? 0,
+      pages: (json['pages'] as num?)?.toInt() ?? 0,
+      page: (json['page'] as num?)?.toInt() ?? 0,
+      items: items,
     );
   }
 }

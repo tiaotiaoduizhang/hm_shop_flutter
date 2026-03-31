@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
     // 间隔
     SliverToBoxAdapter(child: Container(height: 10)),
     // 推荐
-    SliverToBoxAdapter(child: HmSuggestion(hotPreferenceList: _hotPreferenceList)),
+    SliverToBoxAdapter(child: HmSuggestion(specialOffer: _specialOffer )),
     // 间隔
     SliverToBoxAdapter(child: Container(height: 10)),
     //热门商品组件
@@ -47,9 +47,11 @@ class _HomeViewState extends State<HomeView> {
         child: Flex(
           direction: Axis.horizontal,
           children: [
-            Expanded(child: HmHot()),
+            Expanded(
+                child: HmHot(result: _inVogueResult, type: "hot"),
+              ),
             SizedBox(width: 10),
-            Expanded(child: HmHot()),
+            Expanded(child: HmHot(result: _oneStopResult, type: "step")),
           ],
         ),
       ),
@@ -57,30 +59,51 @@ class _HomeViewState extends State<HomeView> {
     // 间隔
     SliverToBoxAdapter(child: Container(height: 10)),
     //更多商品组件（无线滚动）
-    HmMoreList(),
+    HmMoreList(goodsList: _recommendList),
     // SliverToBoxAdapter(child: HmMoreList()),
   ];
   // 特惠推荐数据
-  SpecialOfferRecommendation _hotPreferenceList = SpecialOfferRecommendation(
-    id: '',
-    title: '',
-    subTypes: [],
-  );
+  SpecialOffer _specialOffer = SpecialOffer(id: "", title: "", subTypes: []);
+    // 热榜推荐
+  SpecialOffer _inVogueResult = SpecialOffer(id: "", title: "", subTypes: []);
+  // 一站式推荐
+  SpecialOffer _oneStopResult = SpecialOffer(id: "", title: "", subTypes: []);
+    // 推荐列表
+  List<GoodDetailItem> _recommendList = [];
   // 初始化
   @override
   void initState() {
     super.initState();
     _getBannerListApi();
     _getCategoryListApi();
-    _debugHotPreference();
     _getHotPreferenceListApi();
+    _getInVogueListApi();
+    _getOneStopListApi();
+    _getRecommendListApi();
+  }
+  // 获取热门榜推荐数据
+  void _getInVogueListApi() async {
+    _inVogueResult = await getInVogueListAPI();
+    setState(() {});
+  }
+  // 获取一站式推荐数据
+  void _getOneStopListApi() async {
+    _oneStopResult = await getOneStopListAPI();
+    setState(() {});
   }
   // 获取特惠推荐数据
   void _getHotPreferenceListApi() async {
-    _hotPreferenceList = await getHotPreferenceListApi();
+    _specialOffer = await getSpecialOfferAPI();
     setState(() {});
   }
-
+  // 获取推荐列表数据
+  void _getRecommendListApi() async {
+    _recommendList = await getRecommendListAPI({
+      "page": 1,
+      "limit": 10,
+    });
+    setState(() {});
+  }
   // 获取轮播图数据
   void _getBannerListApi() async {
     _bannerList = await getBannerListApi();
@@ -92,11 +115,7 @@ class _HomeViewState extends State<HomeView> {
     _categoryList = await getCategoryListApi();
     setState(() {});
   }
-//获取特惠推荐  
-  void _debugHotPreference() async {
-      _hotPreferenceList = await getHotPreferenceListApi();
-    setState(() {});
-  }
+
 
   @override
   Widget build(BuildContext context) {
