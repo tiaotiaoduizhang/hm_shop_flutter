@@ -32,17 +32,15 @@ Future<SpecialOffer> getSpecialOfferAPI() async {
 // 热榜推荐
 Future<SpecialOffer> getInVogueListAPI() async {
   // 返回请求
-  return SpecialOffer.fromJson(
-    await dioRequest.get(HttpConstants.IN_VOGUE_LIST),
-  );
+  final result = await dioRequest.get(HttpConstants.IN_VOGUE_LIST);
+  return SpecialOffer.fromJson(result as Map<String, dynamic>);
 }
 
 // 一站式推荐
 Future<SpecialOffer> getOneStopListAPI() async {
   // 返回请求
-  return SpecialOffer.fromJson(
-    await dioRequest.get(HttpConstants.ONE_STOP_LIST),
-  );
+  final result = await dioRequest.get(HttpConstants.ONE_STOP_LIST);
+  return SpecialOffer.fromJson(result as Map<String, dynamic>);
 }
 // 推荐列表
 Future<List<GoodDetailItem>> getRecommendListAPI(

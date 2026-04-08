@@ -147,3 +147,25 @@ flutter pub add dio
 不同处：
 print('page=$_page hasMore=$\_hasMore isLoading=$\_isLoading');打印只能打印一个
 final GlobalKey<RefreshIndicatorState> \_key=GlobalKey<RefreshIndicatorState>();和 Vue3 的 ref 绑定很像
+
+
+我的页面（集成+搭建）
+要素及功能
+1.准备图片资源，使用集成素材快速搭建
+2.实现猜你喜欢滚动吸顶功能
+3，实现猜你喜欢上拉加载功能
+4.复用原来的HmMoreList组件
+
+
+登录页面(集成+表单校验)
+要素及功能
+1.使用提供的登录页面结构
+2.我的页面到登录页
+3.实现账号/密码/勾选的校验并提示
+4.实现按钮的校验控制
+5.优化轻提示工具
+知识点:
+1.Form组件 =>TextFormField可实现表单校验
+2.使用GlobalKey创建key绑定Form组件可调用valiate方法
+3.TextFormField的validate返回校验文本
+4.正则表达式使用RegExp()进行校验

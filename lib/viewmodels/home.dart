@@ -28,10 +28,13 @@ class BannerItem {
 class CategoryItem {
   /// 分类ID
   String? id;
+
   /// 分类名称
   String? name;
+
   /// 分类图片地址
   String? picture;
+
   /// 子分类列表
   List<CategoryItem>? children;
 
@@ -78,8 +81,8 @@ class SpecialOffer {
     final subTypesJson = json['subTypes'];
     final subTypes = subTypesJson is List
         ? subTypesJson
-            .map((item) => SubType.fromJson(item as Map<String, dynamic>))
-            .toList()
+              .map((item) => SubType.fromJson(item as Map<String, dynamic>))
+              .toList()
         : <SubType>[];
     return SpecialOffer(
       id: json['id'] ?? "",
@@ -136,8 +139,8 @@ class GoodsItems {
     final itemsJson = json['items'];
     final items = itemsJson is List
         ? itemsJson
-            .map((item) => Item.fromJson(item as Map<String, dynamic>))
-            .toList()
+              .map((item) => Item.fromJson(item as Map<String, dynamic>))
+              .toList()
         : <Item>[];
     return GoodsItems(
       counts: (json['counts'] as num?)?.toInt() ?? 0,
@@ -203,6 +206,17 @@ class GoodDetailItem extends Item {
     );
   }
 }
+//猜你喜欢商品列表项  把“猜你喜欢”接口（getGuessListApi）返回的分页数据解析成强类型对象 ，其中列表里的每一项就是 GoodDetailItem 。
+/**
+ * class GoodsDetailsItems 表示一个分页结果容器,通常接口返回会包含
+ * counts 总商品数
+ * pageSize 每页商品数
+ * pages 总页数
+ * page 当前页码
+ * items 当前页的数据列表（这里是 List<GoodDetailItem> ）
+ * 构造函数 GoodsDetailsItems({ required ... })用来创建实例时必须把这些字段都传进来
+ */
+
 
 class GoodsDetailsItems {
   int counts;
@@ -218,15 +232,15 @@ class GoodsDetailsItems {
     required this.page,
     required this.items,
   });
-
+ //工厂构造：专门用来把接口返回的 JSON（Map）转成 GoodsDetailsItems 对象
   factory GoodsDetailsItems.fromJson(Map<String, dynamic> json) {
-    final itemsJson = json['items'];
+    final itemsJson = json['items']; //判断是不是list
     final items = itemsJson is List
         ? itemsJson
-            .map(
-              (item) => GoodDetailItem.formJSON(item as Map<String, dynamic>),
-            )
-            .toList()
+              .map(
+                (item) => GoodDetailItem.formJSON(item as Map<String, dynamic>),
+              )
+              .toList()
         : <GoodDetailItem>[];
     return GoodsDetailsItems(
       counts: (json['counts'] as num?)?.toInt() ?? 0,

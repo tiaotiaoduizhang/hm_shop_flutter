@@ -22,5 +22,8 @@ class HttpConstants {
   static const String IN_VOGUE_LIST = "/hot/inVogue"; // 热榜推荐地址
   static const String ONE_STOP_LIST = "/hot/oneStop"; // 一站式推荐地址
   static const String RECOMMEND_LIST = "/home/recommend"; // 推荐列表
+  static const String GUESS_LIST = "/home/goods/guessLike"; // 猜你喜欢
 }
-//
+//1.请求地址有
+//2.请求类型是GoodsItems类型=> items=>List<GoodsItem>
+//3.HmMoreList要的是List<GoodDetailItem>类型
