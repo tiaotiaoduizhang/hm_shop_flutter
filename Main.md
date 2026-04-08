@@ -115,25 +115,18 @@ flutter:
 页面容器：`HomeView`（建议只负责拼装，不承载重业务逻辑）
 
 整体滚动容器：
+
 - `CustomScrollView`
   - `HmSlider`（轮播图）
   - `HmCategory`（分类入口）
   - `HmSuggestion`（推荐）
   - `HmHot`（爆款）
   - `HmMoreList`（无限滚动）
-插件市场:https://pub.dev/packages?q=
-#轮播图插件安装：
-flutter pub add carousel_slider
-实现轮播图数据对象类型-viewmodels/home.dart
+    插件市场:https://pub.dev/packages?q= #轮播图插件安装：
+    flutter pub add carousel_slider
+    实现轮播图数据对象类型-viewmodels/home.dart
 
-获取轮播图数据:
-1.安装dio
-2.定义常量数据,基本地址,超时时间,业务状态,请求地址
-3.封装网络请求工具,基础地址,拦截器
-4.请求工具进一步解构,处理http状态和业务状态
-5.类工厂转化动态类型到对象类型
-6.封装请求api调用工厂函数
-7.初始化数据更新状态
+获取轮播图数据: 1.安装dio 2.定义常量数据,基本地址,超时时间,业务状态,请求地址3.封装网络请求工具,基础地址,拦截器4.请求工具进一步解构,处理http状态和业务状态5.类工厂转化动态类型到对象类型6.封装请求api调用工厂函数7.初始化数据更新状态
 
 flutter pub add dio
 
@@ -142,12 +135,15 @@ flutter pub add dio
 特惠推荐地址:/hot/preference
 
 推荐列表 （集成）
-说明
-1.集成素材获取第一页数据
+说明1.集成素材获取第一页数据
 2.limit：数量为查询商品数量
-步骤
-1.请求地址常量
-2.API请求
-3.初始化获取数量
-4.传递数据到子组件
-5.实现渲染视图
+步骤1.请求地址常量
+2.API请求3.初始化获取数量4.传递数据到子组件5.实现渲染视图
+
+上拉加载：1.使用原有接口实现2.监听滚动到底事件3.同时只能加载一个请求4.如果没有下一页不能再发起请求
+
+下拉刷新：1.使用RefreshIndicator组件包裹子组件，向下拉触发onRefresh函数2.数据重置，重新获取3.获取完毕提示消息（封装）4.初始化是调用下拉刷新动作
+
+不同处：
+print('page=$_page hasMore=$\_hasMore isLoading=$\_isLoading');打印只能打印一个
+final GlobalKey<RefreshIndicatorState> \_key=GlobalKey<RefreshIndicatorState>();和 Vue3 的 ref 绑定很像

@@ -92,6 +92,7 @@ class _HmMoreListState extends State<HmMoreList> {
         crossAxisSpacing: 10,
         childAspectRatio: 0.75,
       ),
+      itemCount: widget.goodsList.length,
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
