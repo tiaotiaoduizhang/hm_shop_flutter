@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hm_shop/api/user.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       TextEditingController(); // 账号控制器
   final TextEditingController _codeController =
       TextEditingController(); // 密码控制器
+  final UserController _userController = Get.find(); // 寻找对象
   // 头部标题
   Widget _buildHeader() {
     return Row(
@@ -156,17 +159,19 @@ class _LoginPageState extends State<LoginPage> {
   _login() async {
     // 调用登录接口api
     try {
-      await lginApi({
+     final res= await lginApi({
         "account": _phoneController.text,
         "password": _codeController.text,
       });
-       ToastUtils.showToast(context, "登录成功");
-       Navigator.pop(context); //返回上一个页面
+      _userController.updateUserInfo(res);
+      ToastUtils.showToast(context, "登录成功");
+      Navigator.pop(context); //返回上一个页面
     } catch (e) {
       ToastUtils.showToast(context, (e as DioException).message ?? "登录失败");
     }
     // 此时一定登录成功
   }
+
   /**
    * 登录按钮Widget
    * SizedBox 控制按钮尺寸，用 ElevatedButton 提供 Material 风格按钮，并通过 styleFrom 定制样式。

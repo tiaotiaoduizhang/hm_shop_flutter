@@ -177,3 +177,18 @@ final GlobalKey<RefreshIndicatorState> \_key=GlobalKey<RefreshIndicatorState>();
 3.请求工具实现post方法
 4.封装登录api
 5.登录并捕获登录异常提示
+
+Getx用法
+1.安装getx插件  flutter pub add get
+2.定义一个继承GetxController的对象
+3.对象中定义需要共享的属性
+4.数据需要响应式更新-需要给初始值.obs结尾
+5.UI显示Getx数据需使用OBX包裹函数中使用
+6.UI中使用Getx需要一个put和find动作
+7.必须先put一次，才可以find
+8.put仅一次，find可以多次
+
+
+问题：
+1.getx怎么去浏览器上面看数据
+2.怎么在浏览器上面调试样式

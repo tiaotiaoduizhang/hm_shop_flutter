@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hm_shop/api/mine.dart';
 import 'package:hm_shop/components/Home/HmMoreList.dart';
 import 'package:hm_shop/components/Mine/HmGuess.dart';
+import 'package:hm_shop/stores/UserController.dart';
 import 'package:hm_shop/viewmodels/home.dart';
 
 class MyView extends StatefulWidget {
@@ -25,6 +27,7 @@ class MyView extends StatefulWidget {
  * Navigator.pushNamed(context, "/login")用命名路由跳转到 /login 页面（
  */
 class _MyViewState extends State<MyView> {
+  final UserController _userController = Get.put(UserController());
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -37,23 +40,37 @@ class _MyViewState extends State<MyView> {
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 26,
-            backgroundImage: const AssetImage('lib/assets/goods_avatar.png'),
-            backgroundColor: Colors.white,
+          Obx(
+            () => CircleAvatar(
+              radius: 26,
+              backgroundImage: _userController.user.value.avatar.isNotEmpty
+                  ? NetworkImage(_userController.user.value.avatar)
+                  : const AssetImage('lib/assets/goods_avatar.png'),
+              backgroundColor: Colors.white,
+            ),
           ),
+
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "/login");
-                  },
-                  child: Text(
-                    '立即登录',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                Obx(
+                  () => GestureDetector(
+                    onTap: () {
+                      if (_userController.user.value.id.isEmpty) {
+                        Navigator.pushNamed(context, "/login");
+                      }
+                    },
+                    child: Text(
+                      _userController.user.value.nickname.isNotEmpty
+                          ? _userController.user.value.nickname
+                          : '立即登录',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -219,32 +236,35 @@ class _MyViewState extends State<MyView> {
 
   void _registerEvent() {
     _scrollController.addListener(() {
-        // 滚动逻辑
-        if(_scrollController.position.pixels <= (_scrollController.position.maxScrollExtent-50)){
+      // 滚动逻辑
+      if (_scrollController.position.pixels <=
+          (_scrollController.position.maxScrollExtent - 50)) {
         // 滚动到底部
         _getGuessList();
-        }
+      }
     });
   }
-// 阀门控制
-bool _isLoading = false; //是否有人正在加载
-bool _hasMore = true; //是否还有更多数据
+
+  // 阀门控制
+  bool _isLoading = false; //是否有人正在加载
+  bool _hasMore = true; //是否还有更多数据
   void _getGuessList() async {
-    if(_isLoading || !_hasMore){
+    if (_isLoading || !_hasMore) {
       // 有人正在加载或者没有下一页就不请求
       return;
     }
-    _isLoading=true;
+    _isLoading = true;
     final res = await getGuessListApi(_params);
-     _isLoading=false;
+    _isLoading = false;
     _list.addAll(res.items); //把内容追加到尾部
-    if(_params['page']>=res.pages){
-      _hasMore=false; //已经没有下一页
+    if (_params['page'] >= res.pages) {
+      _hasMore = false; //已经没有下一页
     }
     _params['page']++; //针对页面进行加
     setState(() {});
   }
- final ScrollController _scrollController = ScrollController();
+
+  final ScrollController _scrollController = ScrollController();
   Widget build(BuildContext context) {
     return CustomScrollView(
       controller: _scrollController,
