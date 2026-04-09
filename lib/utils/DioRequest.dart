@@ -43,7 +43,9 @@ class DioRequest {
         },
         onError: (error, handler) {
           // 在请求或响应错误时做一些事情
-          handler.reject(error);
+          // DioException是 Dio 这个网络请求库定义的异常类型 （相当于 Dio 的“统一错误对象”）。
+          // handler.reject(error);
+          handler.reject(DioException(requestOptions: error.requestOptions, message: error.response?.data['msg'] ?? '请求失败'));
         },
       ),
     );
@@ -60,6 +62,11 @@ class DioRequest {
     // 把这个 Future 交给 _handleResponse(...) 统一处理
     return _handleResponse(_dio.get(url, queryParameters: queryParameters));
   }
+  // 定义post请求
+  Future<dynamic> post(String url, {Map<String, dynamic>? data}) {
+    // 把这个 Future 交给 _handleResponse(...) 统一处理
+    return _handleResponse(_dio.post(url, data: data));
+  }
 
   //进一步处理返回结果的函数
   Future<dynamic> _handleResponse(Future<Response<dynamic>> task) async {
@@ -71,9 +78,11 @@ class DioRequest {
         // 才认定http状态和业务均正常，可以正常的放行通过
         return data['result']; //只要result数据
       }
-      throw Exception(data['msg'] ?? '请求失败'); // 抛出异常，让调用者处理
+      // throw Exception(data['msg'] ?? '请求失败'); // 抛出异常，让调用者处理
+      throw DioException(requestOptions: res.requestOptions, message: data['msg'] ?? '请求失败');
     } catch (e) {
-      throw Exception(e); // 抛出异常，让调用者处理
+      // throw Exception(e); // 抛出异常，让调用者处理
+      rethrow; //不改变原来抛出的异常类型
     }
   }
 }

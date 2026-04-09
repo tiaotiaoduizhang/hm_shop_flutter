@@ -169,3 +169,11 @@ final GlobalKey<RefreshIndicatorState> \_key=GlobalKey<RefreshIndicatorState>();
 2.使用GlobalKey创建key绑定Form组件可调用valiate方法
 3.TextFormField的validate返回校验文本
 4.正则表达式使用RegExp()进行校验
+
+
+登录实现：
+1.登录接口地址
+2.定义登录接口返回类型
+3.请求工具实现post方法
+4.封装登录api
+5.登录并捕获登录异常提示

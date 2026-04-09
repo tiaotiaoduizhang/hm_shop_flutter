@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:hm_shop/api/user.dart';
 import 'package:hm_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -151,6 +153,20 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  _login() async {
+    // 调用登录接口api
+    try {
+      await lginApi({
+        "account": _phoneController.text,
+        "password": _codeController.text,
+      });
+       ToastUtils.showToast(context, "登录成功");
+       Navigator.pop(context); //返回上一个页面
+    } catch (e) {
+      ToastUtils.showToast(context, (e as DioException).message ?? "登录失败");
+    }
+    // 此时一定登录成功
+  }
   /**
    * 登录按钮Widget
    * SizedBox 控制按钮尺寸，用 ElevatedButton 提供 Material 风格按钮，并通过 styleFrom 定制样式。
@@ -166,14 +182,15 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         onPressed: () {
           // 登录逻辑
-          if(_key.currentState!.validate()){
-              // 进行勾选框的判断
-              if(_isChecked){
-                // 校验通过
-              }else{
-                // 校验不通过 
-                ToastUtils.showToast(context, "请先勾选同意协议");
-              }
+          if (_key.currentState!.validate()) {
+            // 进行勾选框的判断
+            if (_isChecked) {
+              // 校验通过
+              _login();
+            } else {
+              // 校验不通过
+              ToastUtils.showToast(context, "请先勾选同意协议");
+            }
           }
         },
         style: ElevatedButton.styleFrom(
