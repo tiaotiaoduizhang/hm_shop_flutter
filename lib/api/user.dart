@@ -9,3 +9,8 @@ Future<UserInfo> lginApi(Map<String, dynamic> data) async {
     await DioRequest().post(HttpConstants.LOGIN, data: data),
   );
 }
+Future<UserInfo> getUserInfoApi() async {
+  return UserInfo.fromJSON(
+    await DioRequest().get(HttpConstants.USER_PROFILE),
+  );
+}

@@ -189,6 +189,15 @@ Getx用法
 8.put仅一次，find可以多次
 
 
+token持久化
+1.安装shared_preferences插件  flutter pub add shared_preferences
+2.封装一个TokenManager工具，具备初始化/设置/获取/删除方法
+3.登录成功将token写入持久化
+4.封装获取用户信息API
+5.Dio在请求工具中进行token注入
+6.在应用首页判断token获取状态赋值Getx数据
+7.调整我的页面的Getx的put方式为find方式
+
 问题：
 1.getx怎么去浏览器上面看数据
 2.怎么在浏览器上面调试样式

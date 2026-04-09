@@ -27,7 +27,7 @@ class MyView extends StatefulWidget {
  * Navigator.pushNamed(context, "/login")用命名路由跳转到 /login 页面（
  */
 class _MyViewState extends State<MyView> {
-  final UserController _userController = Get.put(UserController());
+  final UserController _userController = Get.find();
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
